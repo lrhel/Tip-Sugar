@@ -1,10 +1,14 @@
+#!/usr/bin/env python3
+
 import traceback
 
 from bitcoinrpc.authproxy import AuthServiceProxy, JSONRPCException
 import discord
 from discord.ext import commands
 
-from config import TOKEN
+import config
+import utility
+import user_db
 
 COMMANDS = [
     'info',
@@ -20,7 +24,6 @@ class TipSugar(commands.Bot):
 
     def __init__(self, command_prefix):
         super().__init__(command_prefix)
-
         for cog in COMMANDS:
             try:
                 self.load_extension(cog)
@@ -32,7 +35,17 @@ class TipSugar(commands.Bot):
         print("Name: " + str(self.user.name))
         print("ID: " + str(self.user.id))
         print("----------------------")
-        await self.change_presence(activity=discord.Game(name="//help")) # change game playing
 
-bot = TipSugar(command_prefix='//')
-bot.run(TOKEN)
+        await self.change_presence(activity=discord.Game(name=f'{config.prefix}help') if not config.status else config.status) # change game playing
+
+if __name__ == "__main__":
+    user_db.db_init()
+
+    bot = TipSugar(command_prefix=utility.prefix)
+    bot.run(config.token)
+
+    @bot.check
+    def add_to_db():
+        if not user_db.check_user(user_id):
+            user_db.add_user(user_id, user_name)
+        return True

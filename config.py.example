@@ -1,0 +1,15 @@
+# Sugarchain Configuration
+rpc_user = ''
+rpc_password =''
+ip = ''
+rpc_port = ''
+confirm = 6
+fee = 0.001 # withdraw Fee
+
+# Bot Configuration
+version = "1.0.1"
+token = ''
+owner_id =
+prefix = '//'
+default_color = 0x000000
+status = ''
