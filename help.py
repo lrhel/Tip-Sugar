@@ -14,7 +14,7 @@ class Help(commands.Cog):
     async def help(self, ctx):
         user_id = str(ctx.author.id)
         user_name = ctx.author.name
-        prefix = config.prefix(self.bot,ctx.message)
+        prefix = utility.prefix(self.bot, ctx.message)[0]
         embed = await utility.make_embed(ctx, self.bot,
             title=f'**Sugar Bot Command List:**',
             color=0x7152b6)
@@ -31,16 +31,16 @@ class Help(commands.Cog):
             value=f'Show your Sugar deposit address.',
             inline=True)
         embed.add_field(
-            name=f'**{prefix}tip**',
-            value=f'Tip specified user. [{prefix}tip @user <amount>] to tip 1 SUGAR',
+            name=f'**{prefix}tip** @user *<amount>*',
+            value=f'Tip specified user.',
             inline=True)
         embed.add_field(
-            name=f'**{prefix}withdraw**',
-            value=f'Withdraw Sugar from your wallet. [{prefix}withdraw ADDRESS AMOUNT]',
+            name=f'**{prefix}withdraw** *<address>* *<amount>*',
+            value=f'Withdraw Sugar from your wallet.',
             inline=True)
         embed.add_field(
-            name=f'**{prefix}withdrawall**',
-            value=f'Withdraw all Sugar from your wallet. [{prefix}withdrawall ADDRESS]',
+            name=f'**{prefix}withdrawall** *<address>*',
+            value=f'Withdraw all Sugar from your wallet.',
             inline=True)
         await ctx.channel.send(embed=embed)
 
