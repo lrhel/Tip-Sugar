@@ -24,7 +24,7 @@ class Withdrawall(commands.Cog):
         if balance < Decimal('0.5'):
             embed.add_field(
                 name="Amount must be at least 0.5 SUGAR.",
-                value="Your balances : ```{0} SUGAR```".format(client.getbalance(account, config.confirm)))
+                value=f'Your balances : ```{utility.moneyfmt(client.getbalance(account, config.confirm))} SUGAR```')
         else:
             amount = balance - Decimal(str(config.fee))
             validate = client.validateaddress(address)
@@ -32,7 +32,7 @@ class Withdrawall(commands.Cog):
             if not validate['isvalid']:
                 embed.add_field(
                     name="invalid address.",
-                    value="`{0}`".format(str(address)))
+                    value=f'`{address}`')
             else:
                 txid = client.sendfrom(account, address, float(amount))
                 tx = client.gettransaction(txid)
@@ -43,11 +43,11 @@ class Withdrawall(commands.Cog):
 
                 embed = discord.Embed(
                     title="**Block explorer**",
-                    url='https://1explorer.sugarchain.org/tx/{0}'.format(txid),
+                    url=f'https://1explorer.sugarchain.org/tx/{txid}',
                     color=0x0043ff)
                 embed.add_field(
-                    name="Withdrawal complete `{0} SUGAR`\nwithdraw fee is `{1} SUGAR`\nPlease check the transaction at the above link.".format(amount, str(config.fee)),
-                    value="Your balances : `{0} SUGAR`".format(client.getbalance(account, config.confirm)))
+                    name=f'Withdrawal complete `{utility.moneyfmt(amount)} SUGAR`\nwithdraw fee is `{str(config.fee)} SUGAR`\nPlease check the transaction at the above link.',
+                    value=f'Your balances : `{utility.moneyfmt(client.getbalance(account, config.confirm))} SUGAR`')
 
         await ctx.channel.send(embed=embed)
 

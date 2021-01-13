@@ -40,7 +40,7 @@ class Tip(commands.Cog):
             if amount < Decimal('0.00000001'):
                 embed.add_field(
                     name="amount must be at least 0.00000001 SUGAR",
-                    value="`{0}`".format(amount))
+                    value=f'`{amount}`')
             else:
                 if len(tipto) != 18 and len(tipto) != 17: # length of discord user id is 18 or 17
                     embed.add_field(
@@ -53,7 +53,7 @@ class Tip(commands.Cog):
                 elif amount > client.getbalance(tipfrom, config.confirm):
                     embed.add_field(
                         name="You don't have enough balances.",
-                        value="Your balances ```{0} SUGAR```".format(client.getbalance(tipfrom, config.confirm)))
+                        value=f'Your balances ```{utility.moneyfmt(client.getbalance(tipfrom, config.confirm))} SUGAR```')
                 else:
                     if tipto == str(self.bot.user.id):
                         try:
@@ -61,22 +61,22 @@ class Tip(commands.Cog):
                         except:
                             embed.add_field(
                                 name="invalid amount.\n(You can not specify the einth decimal place or smaller than that.)",
-                                value="`{0}`".format(amount))
+                                value=f'"`{amount}`')
                             move_istrue = False
                         if move_istrue:
                             embed.add_field(
                                 name="Thank you for donating!",
-                                value="```{0} SUGAR```".format(amount))
+                                value=f'```{amount} SUGAR```')
                     else:
                         try:
                             move_istrue = client.move(tipfrom, tipto, float(amount))
                         except:
                             embed.add_field(
                                 name="invalid amount.\n(You can not specify the einth decimal place or smaller than that.)",
-                                value="`{0}`".format(amount))
+                                value='`{amount}`')
                             move_istrue = False
                         if move_istrue:
-                            embed.add_field(name=f'{ctx.author} tipped to {self.bot.get_user(int(tipto))} `{amount} SUGAR`', value="yay!")
+                            embed.add_field(name=f'{ctx.author} tipped to {self.bot.get_user(int(tipto))} `{utility.moneyfmt(amount)} SUGAR`', value="yay!")
         await ctx.channel.send(embed=embed)
 
 def setup(bot):

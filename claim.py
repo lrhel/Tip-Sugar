@@ -29,7 +29,7 @@ class Claim(commands.Cog):
                 user_db.update_claim(ctx.author.id)
                 client.move(config.faucet_wallet, str(ctx.author.id), float(config.faucet))
                 embed = await utility.make_embed(ctx,self.bot, title=":tada: Congratulation :tada:", color=0x4b8b3b)
-                embed.add_field(name=f'You got {config.faucet} Sugar', value=f'Your balance is now {client.getbalance(str(ctx.author.id), config.confirm)} Sugar')
+                embed.add_field(name=f'You got {config.faucet} Sugar', value=f'Your balance is now {utility.moneyfmt(client.getbalance(str(ctx.author.id), config.confirm))} Sugar')
                 return embed
             else:
                 return await utility.make_embed(ctx,self.bot, title="Not enough funds", color=0xd0312d)

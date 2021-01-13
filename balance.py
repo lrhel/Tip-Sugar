@@ -19,7 +19,7 @@ class Balance(commands.Cog):
         balance = client.getbalance(user_id, config.confirm)
         unconfirmed_balance = client.getbalance(user_id, 0) - client.getbalance(user_id, config.confirm)
         embed = await utility.make_embed(ctx,self.bot,title="**Your balances**",color=0x0043ff)
-        embed.add_field(name=f'{balance} SUGAR', value=f'Unconfirmed: {unconfirmed_balance} SUGAR')
+        embed.add_field(name=f'{utility.moneyfmt(balance)} SUGAR', value=f'Unconfirmed: {utility.moneyfmt(unconfirmed_balance)} SUGAR')
         await ctx.channel.send(embed=embed)
 
 def setup(bot):

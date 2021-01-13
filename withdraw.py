@@ -37,18 +37,18 @@ class Withdraw(commands.Cog):
             if not validate['isvalid']:
                 embed.add_field(
                     name="invalid address.",
-                    value="`{0}`".format(str(address)))
+                    value=f'`{address}`')
             elif Decimal(amount) > client.getbalance(account, config.confirm):
                 embed.add_field(
                     name="You don't have enough balances.",
-                    value="Your balances : ```{0} SUGAR```".format(client.getbalance(account, config.confirm)))
+                    value=f'Your balances : ```{utility.moneyfmt(client.getbalance(account, config.confirm))} SUGAR```')
             else:
                 try:
                     txid = client.sendfrom(account, address, float(sendamount))
                 except:
                     embed.add_field(
                         name="invalid amount.\n(You can not specify the einth decimal place or smaller than that.)",
-                        value="`{0}`".format(amount))
+                        value=f'`{amount}`')
                     txid = ""
                 if len(txid) == 64:
                     tx = client.gettransaction(txid)
@@ -56,9 +56,9 @@ class Withdraw(commands.Cog):
                     client.move(account, "tipsugar_wallet", Decimal(str(config.fee)))
                     client.move("tipsugar_wallet", account, -txfee)
                     embed.add_field(
-                        name=f'Withdrawal complete `{sendamount} SUGAR`\nwithdraw fee is `{config.fee} SUGAR`\nPlease check the transaction at the below link.',
-                        value=f'Your balances : `{client.getbalance(account, config.confirm)} SUGAR`')
-                    embed.add_field(value=f'[{txid}](https://1explorer.sugarchain.org/tx/{txid})')
+                        name=f'Withdrawal complete `{utility.moneyfmt(sendamount)} SUGAR`\nwithdraw fee is `{config.fee} SUGAR`\nPlease check the transaction at the below link.',
+                        value=f'Your balances : `{utility.moneyfmt(client.getbalance(account, config.confirm))} SUGAR`')
+                    embed.add_field(name=f'Transaction ID', value=f'[{txid}](https://1explorer.sugarchain.org/tx/{txid})')
 
         await ctx.channel.send(embed=embed)
 
