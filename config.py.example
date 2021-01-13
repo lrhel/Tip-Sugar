@@ -7,6 +7,7 @@ confirm = 6
 fee = 0.001 # withdraw Fee
 
 # Bot Configuration
+currency = "Sugar"
 version = "1.0.1"
 token = ''
 owner_id =
@@ -17,3 +18,6 @@ donation_wallet = "tipsugar_wallet"
 faucet = 0.01 #claim per faucet
 faucet_time = 3600 #time between claim (in seconds)
 faucet_wallet = "tipsugar_wallet"
+withdraw_wallet = "tipsugar_wallet"
+
+guilds = []
