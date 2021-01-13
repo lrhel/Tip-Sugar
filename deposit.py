@@ -20,7 +20,7 @@ class Deposit(commands.Cog):
             title="**Your deposit address**",
             color=0x0043ff)
         embed.add_field(
-            name="Send sugar to this address.",
+            name=f'Send {config.currency} to this address.',
             value="Click to enlarge the QR code")
         embed.set_thumbnail(url=f'https://chart.googleapis.com/chart?cht=qr&chs=500x500&chl={address}')
 

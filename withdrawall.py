@@ -23,8 +23,8 @@ class Withdrawall(commands.Cog):
         embed = await utility.make_embed(ctx,self.bot,color=0xff0000)
         if balance < Decimal('0.5'):
             embed.add_field(
-                name="Amount must be at least 0.5 SUGAR.",
-                value=f'Your balances : ```{utility.moneyfmt(client.getbalance(account, config.confirm))} SUGAR```')
+                name=f'Amount must be at least 0.5 {config.currency}.',
+                value=f'Your balances : ```{utility.moneyfmt(client.getbalance(account, config.confirm))} {config.currency}```')
         else:
             amount = balance - Decimal(str(config.fee))
             validate = client.validateaddress(address)
@@ -38,17 +38,13 @@ class Withdrawall(commands.Cog):
                 tx = client.gettransaction(txid)
                 txfee = tx['fee']
 
-                client.move(account, "tipsugar_wallet", Decimal(str(config.frr)))
-                client.move("tipsugar_wallet", account, -txfee)
+                client.move(account, f'{config.withdraw_wallet}', Decimal(str(config.frr)))
+                client.move(f'{withdraw_wallet}', account, -txfee)
 
-                embed = discord.Embed(
-                    title="**Block explorer**",
-                    url=f'https://1explorer.sugarchain.org/tx/{txid}',
-                    color=0x0043ff)
                 embed.add_field(
-                    name=f'Withdrawal complete `{utility.moneyfmt(amount)} SUGAR`\nwithdraw fee is `{str(config.fee)} SUGAR`\nPlease check the transaction at the above link.',
-                    value=f'Your balances : `{utility.moneyfmt(client.getbalance(account, config.confirm))} SUGAR`')
-
+                    name=f'Withdrawal complete `{utility.moneyfmt(amount)} {config.currency}`\nwithdraw fee is `{str(config.fee)} {config.currency}`\nPlease check the transaction at the following link.',
+                    value=f'Your balances : `{utility.moneyfmt(client.getbalance(account, config.confirm))} {config.currency}`')
+                embed.add_field(name=f'Transaction ID', value=f'[{txid}](https://1explorer.sugarchain.org/tx/{txid})')
         await ctx.channel.send(embed=embed)
 
 def setup(bot):

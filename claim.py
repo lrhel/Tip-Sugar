@@ -29,13 +29,13 @@ class Claim(commands.Cog):
                 user_db.update_claim(ctx.author.id)
                 client.move(config.faucet_wallet, str(ctx.author.id), float(config.faucet))
                 embed = await utility.make_embed(ctx,self.bot, title=":tada: Congratulation :tada:", color=0x4b8b3b)
-                embed.add_field(name=f'You got {config.faucet} Sugar', value=f'Your balance is now {utility.moneyfmt(client.getbalance(str(ctx.author.id), config.confirm))} Sugar')
+                embed.add_field(name=f'You got {config.faucet} {config.currency}', value=f'Your balance is now {utility.moneyfmt(client.getbalance(str(ctx.author.id), config.confirm))} {config.currency}')
                 return embed
             else:
                 return await utility.make_embed(ctx,self.bot, title="Not enough funds", color=0xd0312d)
         else:
             to_wait = (claim[1] + config.faucet_time) - int(time.time())
-            return await utility.make_embed(ctx,self.bot, title=f'You have to wait {int(to_wait / 3600)}:{int(to_wait / 60)}:{int(to_wait % 60)}', color=0xd0312d)
+            return await utility.make_embed(ctx,self.bot, title=f'You have to wait {int(to_wait / 3600):02}:{int(to_wait / 60):02}:{int(to_wait % 60):02}', color=0xd0312d)
 
     @commands.command()
     async def claim(self,ctx):
@@ -43,7 +43,7 @@ class Claim(commands.Cog):
         embed = await self._make_claim(ctx,client)
         await ctx.channel.send(embed=embed)
 
-    @cog_ext.cog_slash(name="claim", description="Claim some Free Sugar", guild_ids=[797830344132526110])
+    @cog_ext.cog_slash(name="claim", description=f'Claim some Free {config.currency}', guild_ids=config.guilds)
     async def claim_slash(self, ctx: SlashContext):
         client = AuthServiceProxy(f'http://{config.rpc_user}:{config.rpc_password}@{config.ip}:{config.rpc_port}')
         ctx.author = await self.bot.fetch_user(ctx.author)

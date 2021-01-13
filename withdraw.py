@@ -26,7 +26,7 @@ class Withdraw(commands.Cog):
         embed = await utility.make_embed(ctx,self.bot,color=0xff0000)
         if not str_isfloat(amount) or Decimal(amount) < Decimal('0.5'):
             embed.add_field(
-                name="invalid amount. (amount must be at least 0.5 SUGAR)",
+                name=f'invalid amount. (amount must be at least 0.5 {config.currency})',
                 value=f'`{amount}`')
         else:
             sendamount = Decimal(str(float(amount))) - \
@@ -41,7 +41,7 @@ class Withdraw(commands.Cog):
             elif Decimal(amount) > client.getbalance(account, config.confirm):
                 embed.add_field(
                     name="You don't have enough balances.",
-                    value=f'Your balances : ```{utility.moneyfmt(client.getbalance(account, config.confirm))} SUGAR```')
+                    value=f'Your balances : ```{utility.moneyfmt(client.getbalance(account, config.confirm))} {config.currency}```')
             else:
                 try:
                     txid = client.sendfrom(account, address, float(sendamount))
@@ -53,11 +53,11 @@ class Withdraw(commands.Cog):
                 if len(txid) == 64:
                     tx = client.gettransaction(txid)
                     txfee = tx['fee']
-                    client.move(account, "tipsugar_wallet", Decimal(str(config.fee)))
-                    client.move("tipsugar_wallet", account, -txfee)
+                    client.move(account, f'{config.withdraw_wallet}', Decimal(str(config.fee)))
+                    client.move(f'{config.withdraw_wallet}', account, -txfee)
                     embed.add_field(
-                        name=f'Withdrawal complete `{utility.moneyfmt(sendamount)} SUGAR`\nwithdraw fee is `{config.fee} SUGAR`\nPlease check the transaction at the below link.',
-                        value=f'Your balances : `{utility.moneyfmt(client.getbalance(account, config.confirm))} SUGAR`')
+                        name=f'Withdrawal complete `{utility.moneyfmt(sendamount)} {config.currency}`\nwithdraw fee is `{config.fee} {config.currency}`\nPlease check the transaction at the below link.',
+                        value=f'Your balances : `{utility.moneyfmt(client.getbalance(account, config.confirm))} {config.currency}`')
                     embed.add_field(name=f'Transaction ID', value=f'[{txid}](https://1explorer.sugarchain.org/tx/{txid})')
 
         await ctx.channel.send(embed=embed)

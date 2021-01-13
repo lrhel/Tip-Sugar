@@ -20,15 +20,15 @@ class Help(commands.Cog):
             color=0x7152b6)
         embed.add_field(
             name=f'**{prefix}info**',
-            value=f'Show Sugar Core wallet/blockchain info.',
+            value=f'Show {config.currency} Core wallet/blockchain info.',
             inline=True)
         embed.add_field(
             name=f'**{prefix}balance**',
-            value=f'Show your Sugar balances.',
+            value=f'Show your {config.currency} balances.',
             inline=True)
         embed.add_field(
             name=f'**{prefix}deposit**',
-            value=f'Show your Sugar deposit address.',
+            value=f'Show your {config.currency} deposit address.',
             inline=True)
         embed.add_field(
             name=f'**{prefix}tip** @user *<amount>*',
@@ -36,11 +36,11 @@ class Help(commands.Cog):
             inline=True)
         embed.add_field(
             name=f'**{prefix}withdraw** *<address>* *<amount>*',
-            value=f'Withdraw Sugar from your wallet.',
+            value=f'Withdraw {config.currency} from your wallet.',
             inline=True)
         embed.add_field(
             name=f'**{prefix}withdrawall** *<address>*',
-            value=f'Withdraw all Sugar from your wallet.',
+            value=f'Withdraw all {config.currency} from your wallet.',
             inline=True)
         await ctx.channel.send(embed=embed)
 

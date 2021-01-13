@@ -39,8 +39,8 @@ class Tip(commands.Cog):
 
             if amount < Decimal('0.00000001'):
                 embed.add_field(
-                    name="amount must be at least 0.00000001 SUGAR",
-                    value=f'`{amount}`')
+                    name=f'amount must be at least 0.00000001 {config.currency}',
+                    value=f'`{amount} {config.currency}`')
             else:
                 if len(tipto) != 18 and len(tipto) != 17: # length of discord user id is 18 or 17
                     embed.add_field(
@@ -53,7 +53,7 @@ class Tip(commands.Cog):
                 elif amount > client.getbalance(tipfrom, config.confirm):
                     embed.add_field(
                         name="You don't have enough balances.",
-                        value=f'Your balances ```{utility.moneyfmt(client.getbalance(tipfrom, config.confirm))} SUGAR```')
+                        value=f'Your balances ```{utility.moneyfmt(client.getbalance(tipfrom, config.confirm))} {config.currency}```')
                 else:
                     if tipto == str(self.bot.user.id):
                         try:
@@ -66,7 +66,7 @@ class Tip(commands.Cog):
                         if move_istrue:
                             embed.add_field(
                                 name="Thank you for donating!",
-                                value=f'```{amount} SUGAR```')
+                                value=f'```{amount} {config.currency}```')
                     else:
                         try:
                             move_istrue = client.move(tipfrom, tipto, float(amount))
@@ -76,7 +76,7 @@ class Tip(commands.Cog):
                                 value='`{amount}`')
                             move_istrue = False
                         if move_istrue:
-                            embed.add_field(name=f'{ctx.author} tipped to {self.bot.get_user(int(tipto))} `{utility.moneyfmt(amount)} SUGAR`', value="yay!")
+                            embed.add_field(name=f'{ctx.author} tipped to {self.bot.get_user(int(tipto))} `{utility.moneyfmt(amount)} {config.currency}`', value="yay!")
         await ctx.channel.send(embed=embed)
 
 def setup(bot):
