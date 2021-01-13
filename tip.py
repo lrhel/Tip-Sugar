@@ -57,7 +57,7 @@ class Tip(commands.Cog):
                 else:
                     if tipto == str(self.bot.user.id):
                         try:
-                            move_istrue = client.move(tipfrom, 'tipsugar_wallet', float(amount))
+                            move_istrue = client.move(tipfrom, config.donation_wallet, float(amount))
                         except:
                             embed.add_field(
                                 name="invalid amount.\n(You can not specify the einth decimal place or smaller than that.)",

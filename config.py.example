@@ -13,3 +13,7 @@ owner_id =
 prefix = '//'
 default_color = 0x000000
 status = ''
+donation_wallet = "tipsugar_wallet"
+faucet = 0.01 #claim per faucet
+faucet_time = 3600 #time between claim (in seconds)
+faucet_wallet = "tipsugar_wallet"

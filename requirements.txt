@@ -1,3 +1,3 @@
 discord.py
 python-bitcoinrpc
-
+discord-py-slash-command
