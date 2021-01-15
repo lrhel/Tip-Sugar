@@ -22,7 +22,8 @@ class Claim(commands.Cog):
     def cog_unload(self):
         self.bot.slash.remove_cog_commands(self)
 
-    async def _make_claim(self,ctx,client):
+    async def _make_claim(self,ctx):
+        client = AuthServiceProxy(f'http://{config.rpc_user}:{config.rpc_password}@{config.ip}:{config.rpc_port}')
         claim = user_db.can_claim(ctx.author.id)
         if claim[0]:
             if client.getbalance(config.faucet_wallet, config.confirm) > config.faucet:
@@ -39,15 +40,13 @@ class Claim(commands.Cog):
 
     @commands.command()
     async def claim(self,ctx):
-        client = AuthServiceProxy(f'http://{config.rpc_user}:{config.rpc_password}@{config.ip}:{config.rpc_port}')
-        embed = await self._make_claim(ctx,client)
+        embed = await self._make_claim(ctx)
         await ctx.channel.send(embed=embed)
 
     @cog_ext.cog_slash(name="claim", description=f'Claim some Free {config.currency}', guild_ids=config.guilds)
     async def claim_slash(self, ctx: SlashContext):
-        client = AuthServiceProxy(f'http://{config.rpc_user}:{config.rpc_password}@{config.ip}:{config.rpc_port}')
         ctx.author = await self.bot.fetch_user(ctx.author)
-        embed = await self._make_claim(ctx,client)
+        embed = await self._make_claim(ctx)
         await ctx.send(embeds=[embed])
 
 def setup(bot):
