@@ -18,6 +18,7 @@ COMMANDS = [
     'help',
     'balance',
     'deposit',
+    'prefix',
     'tip',
     'withdraw',
     'withdrawall'

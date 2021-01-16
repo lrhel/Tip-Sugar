@@ -33,7 +33,7 @@ def add_prefix(server, prefix):
     con = sqlite3.connect('tipsugar.db')
     cur = con.cursor()
     sql = 'DELETE FROM prefix WHERE server = ?'
-    cur.execute(sql,(prefix,))
+    cur.execute(sql,(server,))
     sql = 'INSERT INTO prefix VALUES (:s,:l),(:s,:c)'
     cur.execute(sql,{"s":server,"l":prefix.lower(),"c":prefix.capitalize()})
     con.commit()
